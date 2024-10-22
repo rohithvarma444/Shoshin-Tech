@@ -2,6 +2,7 @@ import {BrowserRouter,Routes, Route} from 'react-router-dom'
 import { Toaster } from "react-hot-toast";  
 import Home from './pages/Home'
 import Error from './pages/Error';
+import Navbar from './components/dashboard/Navbar';
 function App() {
 
   return (

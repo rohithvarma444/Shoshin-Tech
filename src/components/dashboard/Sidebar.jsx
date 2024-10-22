@@ -1,12 +1,17 @@
-import logo from '../../assets/logo.png';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import classNames from 'classnames';
+import { AiOutlineMenu } from "react-icons/ai";
 import { MdDashboardCustomize } from "react-icons/md";
 import { BsFillPersonPlusFill } from "react-icons/bs";
-import { BiSolidCalendarEvent } from "react-icons/bi";
+import { BiSolidCalendarEvent, BiSupport } from "react-icons/bi";
 import { PiDotsThreeCircleFill } from "react-icons/pi";
 import { FaUsers } from "react-icons/fa";
-import SideBarLink from './SidebarLink';
-import { BiSupport } from "react-icons/bi";
 import { CiSettings } from "react-icons/ci";
+import logo from '../../assets/logo.png'
+import smLogo from '../../assets/sm-logo.png'
+import SidebarLink from './SidebarLink';
+import { useEffect } from 'react';
 
 const sideBarLinksRender = [
   {
@@ -36,48 +41,122 @@ const sideBarLinksRender = [
   },
 ];
 
-
 const otherLinks = [
-    {
-        name: 'Support',
-        path: '/support',
-        icon: BiSupport,
-    },
-    {
-        name: 'Settings',
-        path: '/settings',
-        icon: CiSettings,
-    }
-]
+  {
+    name: 'Support',
+    path: '/support',
+    icon: BiSupport,
+  },
+  {
+    name: 'Settings',
+    path: '/settings',
+    icon: CiSettings,
+  }
+];
 
-function Sidebar() {
+const Sidebar = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1024) {
+        setCollapsed(true);
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className='flex flex-col gap-y-5 border-r border-gray-200 sm:w-[250px] lg:w-[18%] h-screen overflow-y-auto'>
-      <div className='flex flex-col items-center justify-center relative top-4 font-medium text-lg'>
-        <img src={logo} alt='Logo' className="w-3/4 max-w-[150px]" />
+    <div className={classNames(
+      'flex flex-col border-r border-gray-200 h-screen transition-all duration-300 ease-in-out',
+      'bg-white relative',
+      collapsed ? 'w-20' : 'w-64'
+    )}>
+      {isMobile && (
+        <button
+          className={`lg:hidden absolute right-4 top-[20px] ${collapsed? "left-[90px]" : "left-[230px]"}`}
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          <AiOutlineMenu className="w-6 h-6 text-gray-600" />
+        </button>
+      )}
+
+      {/* Logo */}
+      <div className={classNames(
+        'flex items-center p-4',
+        collapsed ? 'justify-center' : 'px-6'
+      )}>
+        <img
+          src={!collapsed? logo: smLogo}
+          alt="Logo"
+          className={classNames(
+            'transition-all duration-300',
+            collapsed ? 'w-10' : 'w-32'
+          )}
+        />
       </div>
 
-      <div className='flex flex-col gap-y-5 p-5 mt-10 mx-auto w-full'>
-        <p className='text-gray-500 text-sm'>Main Menu</p>
+      {/* Navigation */}
+      <div className="flex-1 px-4 py-6 space-y-8">
+        {/* Main Menu */}
+        <div>
+          {!collapsed && (
+            <p className="px-2 text-xs font-medium text-gray-500 uppercase">
+              Main Menu
+            </p>
+          )}
+          <div className="mt-4 space-y-2">
+            {sideBarLinksRender.map((link) => (
+              <SidebarLink
+                key={link.name}
+                title={link.name}
+                route={link.path}
+                icon={link.icon}
+                collapsed={collapsed}
+              />
+            ))}
+          </div>
+        </div>
 
-        <div className='flex flex-col gap-y-4'>
-          {sideBarLinksRender.map((link) => (
-            <SideBarLink title={link.name} route={link.path} icon={link.icon} key={link.name}/>
-          ))}
+        {/* Other Links */}
+        <div>
+          {!collapsed && (
+            <p className="px-2 text-xs font-medium text-gray-500 uppercase">
+              Other
+            </p>
+          )}
+          <div className="mt-4 space-y-2">
+            {otherLinks.map((link) => (
+              <SidebarLink
+                key={link.name}
+                title={link.name}
+                route={link.path}
+                icon={link.icon}
+                collapsed={collapsed}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className='flex flex-col gap-y-5 p-5 mx-auto w-full'>
-        <p className='text-gray-500 text-sm'>Other</p>
-
-        <div className='flex flex-col gap-y-4'>
-          {otherLinks.map((link) => (
-            <SideBarLink title={link.name} route={link.path} icon={link.icon} key={link.name}/>
-          ))}
-        </div>
-      </div>
+      {/* Collapse Toggle - Only show on desktop */}
+      {!isMobile && (
+        <button
+          className="hidden lg:flex items-center justify-center p-2 mx-4 mb-4 text-gray-600 rounded-lg hover:bg-gray-100"
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          <AiOutlineMenu className="w-6 h-6" />
+        </button>
+      )}
     </div>
   );
-}
+};
 
 export default Sidebar;
