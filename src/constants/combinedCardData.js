@@ -21,11 +21,11 @@ export const combinedCardsData = [
       percentage: '+5%',
       data: [
         { name: 'Jan', value: 10 },
-        { name: 'Feb', value: 14 },
-        { name: 'Mar', value: 15 },
-        { name: 'Apr', value: 16 },
-        { name: 'May', value: 14 },
-        { name: 'Jun', value: 18 },
+        { name: 'Feb', value: 19 },
+        { name: 'Mar', value: 24 },
+        { name: 'Apr', value: 14 },
+        { name: 'May', value: 12 },
+        { name: 'Jun', value: 22 },
       ]
     }
   ];

@@ -1,4 +1,3 @@
-import React from 'react'
 import { MdEdit } from "react-icons/md";
 import { MdOutlineMoreHoriz } from "react-icons/md";
 

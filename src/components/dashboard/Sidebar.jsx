@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import classNames from 'classnames';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdDashboardCustomize } from "react-icons/md";
 import { BsFillPersonPlusFill } from "react-icons/bs";
@@ -8,10 +6,10 @@ import { BiSolidCalendarEvent, BiSupport } from "react-icons/bi";
 import { PiDotsThreeCircleFill } from "react-icons/pi";
 import { FaUsers } from "react-icons/fa";
 import { CiSettings } from "react-icons/ci";
-import logo from '../../assets/logo.png'
-import smLogo from '../../assets/sm-logo.png'
+import classNames from 'classnames';
+import logo from '../../assets/logo.png';
+import smLogo from '../../assets/sm-logo.png';
 import SidebarLink from './SidebarLink';
-import { useEffect } from 'react';
 
 const sideBarLinksRender = [
   {
@@ -51,7 +49,7 @@ const otherLinks = [
     name: 'Settings',
     path: '/settings',
     icon: CiSettings,
-  }
+  },
 ];
 
 const Sidebar = () => {
@@ -74,36 +72,28 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className={classNames(
-      'flex flex-col border-r border-gray-200 h-screen transition-all duration-300 ease-in-out',
-      'bg-white relative',
-      collapsed ? 'w-20' : 'w-64'
-    )}>
-      {isMobile && (
-        <button
-          className={`lg:hidden absolute right-4 top-[20px] ${collapsed? "left-[90px]" : "left-[230px]"}`}
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          <AiOutlineMenu className="w-6 h-6 text-gray-600" />
-        </button>
+    <div
+      className={classNames(
+        'flex flex-col border-r border-gray-200 h-screen sm:h-screen transition-all duration-300 ease-in-out ',
+        collapsed ? 'w-20' : 'w-64',
+        'bg-gradient-to-b from-gray-100 to-gray-50 shadow-lg'
       )}
-
+    >
       {/* Logo */}
-      <div className={classNames(
-        'flex items-center p-4',
-        collapsed ? 'justify-center' : 'px-6'
-      )}>
+      <div
+        className={classNames(
+          'flex items-center transition-all duration-300 overflow-hidden',
+          collapsed ? 'justify-center p-4' : 'px-6 py-4'
+        )}
+      >
         <img
-          src={!collapsed? logo: smLogo}
+          src={!collapsed ? logo : smLogo}
           alt="Logo"
-          className={classNames(
-            'transition-all duration-300',
-            collapsed ? 'w-10' : 'w-32'
-          )}
+          className={classNames('transition-all duration-300', collapsed ? 'w-10' : 'w-32')}
         />
       </div>
 
-      {/* Navigation */}
+      {/* Main Menu */}
       <div className="flex-1 px-4 py-6 space-y-8">
         {/* Main Menu */}
         <div>
@@ -146,15 +136,15 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Collapse Toggle - Only show on desktop */}
-      {!isMobile && (
+      {/* Unified Toggle Button - Stays at Bottom */}
+      <div className="flex items-center justify-center p-4 mt-auto">
         <button
-          className="hidden lg:flex items-center justify-center p-2 mx-4 mb-4 text-gray-600 rounded-lg hover:bg-gray-100"
+          className="flex items-center justify-center p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors duration-300"
           onClick={() => setCollapsed(!collapsed)}
         >
           <AiOutlineMenu className="w-6 h-6" />
         </button>
-      )}
+      </div>
     </div>
   );
 };

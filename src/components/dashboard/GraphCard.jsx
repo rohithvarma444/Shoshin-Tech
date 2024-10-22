@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart, Line, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import PropTypes from 'prop-types';
 import { FaArrowUpLong } from "react-icons/fa6";
 
@@ -16,15 +16,50 @@ const GraphCard = ({ title, total, men, women, percentage, data }) => {
             <span className="text-red-500 font-semibold">{percentage}</span>
             <FaArrowUpLong className='text-red-500' />
           </div>
-          <ResponsiveContainer width="80%" height="80%" className='relative right-1'>
-            <LineChart data={data}>
+          <ResponsiveContainer width="80%" height={90} className='relative right-1'>
+            <LineChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#ff6b6b" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#ff6b6b" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              <XAxis 
+                dataKey="name" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ fill: '#A0AEC0', fontSize: 12 }} 
+              />
+              <YAxis 
+                hide={true} 
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#fff', 
+                  border: 'none', 
+                  borderRadius: '8px', 
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
+                  padding: '10px' 
+                }} 
+                cursor={false} 
+              />
               <Line 
                 type="monotone" 
                 dataKey="value" 
-                stroke="#ff6b6b" 
-                strokeWidth={3} 
-                dot={false} 
-                isAnimationActive={true}
+                stroke="url(#colorValue)" 
+                strokeWidth={4} 
+                dot={{ 
+                  stroke: '#ff6b6b', 
+                  strokeWidth: 2, 
+                  fill: '#fff', 
+                  r: 4 
+                }} 
+                activeDot={{ 
+                  r: 6, 
+                  stroke: '#ff6b6b', 
+                  strokeWidth: 2 
+                }} 
+                isAnimationActive={true} 
               />
             </LineChart>
           </ResponsiveContainer>

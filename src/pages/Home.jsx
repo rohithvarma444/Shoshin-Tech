@@ -13,18 +13,23 @@ import { scheduleData } from '../constants/scheduleData'
 function Home() {
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+      {/* Sidebar with sticky positioning */}
+      <div className="h-screen sticky top-0">
+        <Sidebar />
+      </div>
+      
+      {/* Main content area */}
       <div className="flex flex-col flex-grow">
         <Navbar />
-        
-        <main className="flex-grow p-6 md:p-10">
+
+        <main className="flex-grow p-6 md:p-10 overflow-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Dashboard</h1>
-          
+
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-            
             <div className="lg:w-2/3 space-y-6">
               
-              <div className="grid grid-cols-1 sm:grid-cols-3 sm:gap-x-2 sm:flex sm: lg:grid-cols-3 gap-4 p-4 w-full max-w-7xl mx-auto">
+              {/* Report Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 sm:gap-x-2 lg:grid-cols-3 gap-4 p-4 w-full max-w-7xl mx-auto">
                 {reportCardData.map((card, index) => (
                   <ReportCard
                     key={index}
@@ -35,7 +40,7 @@ function Home() {
                   />
                 ))}
               </div>
-              
+
               {/* Graph Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {combinedCardsData.map((card, index) => (
@@ -51,21 +56,21 @@ function Home() {
                 ))}
               </div>
 
+              {/* Info Card */}
               <div className="bg-white rounded-lg shadow w-full">
-                <InfoCard title="Announcement" items={announcementData} announcements={true}/>
+                <InfoCard title="Announcement" items={announcementData} announcements={true} />
               </div>
-
             </div>
-            
+
+            {/* Side Column */}
             <div className="lg:w-1/3 space-y-6">
               <div className="bg-white rounded-lg shadow">
                 <ActivityCard activityCount={12} />
               </div>
-              <div className="bg-white rounded-lg shadow w-full ">
-                <InfoCard title="Upcoming Schedule" items={scheduleData} announcements={false}/>
+              <div className="bg-white rounded-lg shadow w-full">
+                <InfoCard title="Upcoming Schedule" items={scheduleData} announcements={false} />
               </div>
             </div>
-
           </div>
         </main>
       </div>
@@ -74,3 +79,4 @@ function Home() {
 }
 
 export default Home;
+
